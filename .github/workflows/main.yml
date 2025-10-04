@@ -57,8 +57,8 @@ jobs:
         run: |
           echo "Files assumed already in correct location"
 
-      - name: Run pin_git_cat.py
-        run: python pin_git_cat.py
+      - name: Run pin_git.py
+        run: python pin_git.py
 
       - name: Commit and push updated tracking files if changed
         shell: bash
