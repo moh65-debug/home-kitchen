@@ -31,11 +31,21 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: Unzip women_clothing.zip from repo
+      - name: Download Affiliate_Home.zip from Google Drive
         shell: powershell
         run: |
-          Expand-Archive -Path women_clothing.zip -DestinationPath . -Force
-          Remove-Item women_clothing.zip
+          $url = '${{ secrets.GDRIVE_PIN_URL }}'
+          $output = 'Affiliate_Home.zip'
+          Invoke-WebRequest -Uri $url -OutFile $output -UseBasicParsing
+          if (-not (Test-Path $output)) {
+            throw "Download failed: $output not found."
+          }
+
+      - name: Unzip Affiliate_Home.zip
+        shell: powershell
+        run: |
+          Expand-Archive -Path Affiliate_Home.zip -DestinationPath . -Force
+          Remove-Item Affiliate_Home.zip
 
       - name: Install Python dependencies
         run: |
@@ -55,6 +65,9 @@ jobs:
 
       - name: Place required files near pin_git.py
         run: |
+          # Assuming pex2.py is in the root directory
+          # Files are already in repo root after checkout, so no move needed if pex2.py is in root
+          # If pex2.py is in subfolder, adjust paths here
           echo "Files assumed already in correct location"
 
       - name: Run pin_git.py
