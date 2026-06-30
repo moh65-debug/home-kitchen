@@ -73,8 +73,8 @@ jobs:
       - name: Run pin_git.py
         run: python pin_git.py
 
-      - name: Run autosaver.py
-        run: python autosaver.py
+   #  - name: Run autosaver.py
+    #   run: python autosaver.py
 
       - name: Commit and push updated tracking files if changed
         shell: bash
